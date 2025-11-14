@@ -272,15 +272,18 @@ def sidebar_and_documentChooser():
         # Open a saved Vectorstore
         # https://github.com/streamlit/streamlit/issues/1019
         st.write("Please select a Vectorstore:")
-        import tkinter as tk
-        from tkinter import filedialog
-
         clicked = st.button("Vectorstore chooser")
-        root = tk.Tk()
-        root.withdraw()
-        root.wm_attributes("-topmost", 1)  # Make dialog appear on top of other windows
 
-        st.session_state.selected_vectorstore_name = ""
+if clicked:
+    st.session_state.selected_vectorstore_name = st.text_input("Enter vectorstore folder name (must exist under data/vector_stores):")
+    selected_vectorstore_path = str(LOCAL_VECTOR_STORE_DIR.joinpath(st.session_state.selected_vectorstore_name))
+
+    if not os.path.exists(selected_vectorstore_path):
+        st.warning("Folder not found! Please make sure the vectorstore exists under data/vector_stores/")
+    else:
+        with st.spinner("Loading vectorstore..."):
+            ...
+
 
         if clicked:
             # Check inputs
